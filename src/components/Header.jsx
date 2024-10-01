@@ -1,26 +1,47 @@
-import { useContext } from "react";
-import { Context } from "../App";
+import { useContext, useEffect } from "react";
+import { Context, ThemeContext } from "../App";
 
 export default function Header() {
     const context = useContext(Context)
+    const themeContext = useContext(ThemeContext)
+
+    const { theme, setTheme } = themeContext
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem("theme")
+        if (savedTheme === null) {
+            setTheme('light')
+        } else {
+            if (savedTheme === "dark") {
+                setTheme('dark');
+                localStorage.setItem("theme", "dark")
+            } else {
+                setTheme('light');
+                localStorage.setItem("theme", "light")
+            }
+        }
+    })
 
     const handleCheckChange = () => {
-        if (context.theme === 'dark') {
-            context.setTheme('light');
+        if (theme === 'dark') {
+            setTheme('light');
+            localStorage.setItem("theme", "light")
         } else {
-            context.setTheme('dark');
+            setTheme('dark');
+            localStorage.setItem("theme", "dark")
         }
     }
 
     const handleButtonClick = () => {
-        console.log("CLICK!");
+        localStorage.clear()
+        setTheme('light')
     }
 
     return (
-        <header className={context.theme}>
+        <header className={theme}>
             <div>
                 <div className="dark-mode-container">
-                    <input id="darkMode" type="checkbox" checked={context.theme === 'dark'} onChange={handleCheckChange}></input>
+                    <input id="darkMode" type="checkbox" checked={theme === 'dark'} onChange={handleCheckChange}></input>
                     <label htmlFor="darkMode">Enable Dark Mode</label>
                 </div>
                 <div>
@@ -96,7 +117,7 @@ export default function Header() {
 
             <button className="tweet-btn">Tweet</button>
 
-            <div className={context.theme === 'dark' ? 'profile-card dark' : 'profile-card'}>
+            <div className={theme === 'dark' ? 'profile-card dark' : 'profile-card'}>
                 <div className="profile-icon"><img src={context.user.profileImage} /></div>
 
                 <div className="profile-details">

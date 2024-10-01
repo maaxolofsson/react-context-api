@@ -1,9 +1,13 @@
 import { useContext, useState } from 'react'
 import imgDoge from '../assets/images/doge.jpg'
 import { CreateTweetContext } from './Tweets'
+import { ThemeContext } from '../App'
 
 export default function CreateTweet() {
     const context = useContext(CreateTweetContext)
+    const themeContext = useContext(ThemeContext)
+
+    const {theme} = themeContext
 
     const [content, setContent] = useState('')
 
@@ -24,7 +28,7 @@ export default function CreateTweet() {
     }
 
     return (
-        <div className={context.theme === 'dark' ? 'create-tweet dark' : 'create-tweet'}>
+        <div className={theme === 'dark' ? 'create-tweet dark' : 'create-tweet'}>
             <form onSubmit={addTweet}>
                 <div className="avatar-section">
                     <div className="profile-icon"><img src={imgDoge}/></div>
