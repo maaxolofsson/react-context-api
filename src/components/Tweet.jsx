@@ -1,7 +1,12 @@
-export default function Tweet({ tweet, theme }) {
+import { useContext } from "react"
+import { TweetContext } from "./Tweets"
+
+export default function Tweet() {
+    const context = useContext(TweetContext)
+    const { tweet, theme } = context
     return (
         <article className={theme === 'dark' ? 'tweet dark' : 'tweet'}>
-            <div className="profile-icon"><img src={tweet.profileImage}/></div>
+            <div className="profile-icon"><img src={tweet.profileImage} /></div>
 
             <div className="tweet-content">
                 <h4>{tweet.name} <span>{tweet.handle} · {tweet.date}</span></h4>
